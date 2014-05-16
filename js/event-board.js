@@ -20,13 +20,13 @@ jQuery(document).ready(function ($) {
 		};
 	}
 
-	$('.event-board-filter').click(function(e){
+	$('.eo-eb-filter').click(function(e){
 		
 		e.preventDefault();
 		
 		var type = $(this).data('filter-type');
 		var value = $(this).data(type);
-		var filter = type + '-' + value;
+		var filter = 'eo-eb-'+type + '-' + value;
 		var filterOn = $(this).data('filter-on');
 		var activeFilters = $('#event-board-filters').data('filters').split(',');
 
@@ -39,8 +39,8 @@ jQuery(document).ready(function ($) {
 			
 			$('#event-board .' + filter )
 				.css({'visibility': 'hidden', 'display': 'none'})
-				.removeClass("event-box masonry-brick masonry-brick")
-				.addClass('event-box-hidden');
+				.removeClass("eo-eb-event-box masonry-brick masonry-brick")
+				.addClass('eo-eb-event-box-hidden');
 			
 		}else{
 			var index = activeFilters.indexOf( filter );
@@ -55,13 +55,13 @@ jQuery(document).ready(function ($) {
 				$('#event-board .' + filter )
 					.not( '.'+activeFilters.join(', .') )
 					.css({'visibility': 'visible', 'display': 'block'})
-					.addClass("event-box masonry-brick masonry-brick")
-					.removeClass('event-box-hidden');
+					.addClass("eo-eb-event-box masonry-brick masonry-brick")
+					.removeClass('eo-eb-event-box-hidden');
 			}else{
 				$('#event-board .' + filter )
 					.css({'visibility': 'visible', 'display': 'block'})
-					.addClass("event-box masonry-brick masonry-brick")
-					.removeClass('event-box-hidden');
+					.addClass("eo-eb-event-box masonry-brick masonry-brick")
+					.removeClass('eo-eb-event-box-hidden');
 			}
 			
 		}
@@ -69,7 +69,7 @@ jQuery(document).ready(function ($) {
 		//Update dom data
 		$('#event-board-filters').data('filters', activeFilters.join(','));
 		$(this).data('filter-on', !filterOn );
-		$(this).toggleClass( 'eo-filter-on', !filterOn );
+		$(this).toggleClass( 'eo-eb-filter-on', !filterOn );
 			
 		$('#event-board-items').masonry('reload');
 	});
@@ -176,11 +176,16 @@ jQuery(document).ready(function ($) {
 			html = event_board_template( event );
 			$container.append(html);
 		}
+		
+		//If there are less than 10 events, then we won't need this...
+		if( events.length < 10 ){
+			$('#event-board-more').hide();
+		}
 
 		$container.imagesLoaded( function(){
 			$container.masonry({
 				isFitWidth: true,
-				itemSelector : '.event-box',
+				itemSelector : '.eo-eb-event-box',
 				isAnimatedFromBottom: true,
 				isAnimated: true,
 				singleMode: true,
@@ -210,8 +215,9 @@ jQuery(document).ready(function ($) {
 				var event = events[i];
 				html += event_board_template( event );
 			}
-			if( events.length < 10 )
+			if( events.length < 10 ){
 				$('#event-board-more').hide();
+			}
 
 			var $box = $(html);
 			var activeFilters = $('#event-board-filters').data('filters').split(',');
@@ -225,10 +231,10 @@ jQuery(document).ready(function ($) {
 				var select = '#event-board .'+activeFilters.join(', #event-board .');
 				$( select )
 					.css({'visibility': 'hidden', 'display': 'none'})
-					.removeClass("event-box masonry-brick masonry-brick")
-					.addClass('event-box-hidden');
+					.removeClass("eo-eb-event-box masonry-brick masonry-brick")
+					.addClass('eo-eb-event-box-hidden');
 			}
-			$(window).trigger('resize');
+			$container.masonry( 'reload' );
 		});
 	}
 });

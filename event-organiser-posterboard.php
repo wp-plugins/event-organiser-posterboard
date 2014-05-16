@@ -2,7 +2,7 @@
 /*
 Plugin Name: Event Organiser Posterboard
 Plugin URI: http://www.wp-event-organiser.com
-Version: 1.0.0
+Version: 1.0.1
 Description: Display events in as a responsive posterboard.
 Author: Stephen Harris
 Author URI: http://www.stephenharris.info
@@ -28,7 +28,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-define( 'EVENT_ORGANISER_POSTERBOARD_DIR',plugin_dir_path(__FILE__ ));
+define( 'EVENT_ORGANISER_POSTERBOARD_VER', '1.0.1' );
+define( 'EVENT_ORGANISER_POSTERBOARD_DIR',plugin_dir_path(__FILE__ ) );
 function _eventorganiser_posterboard_set_constants(){
 	/*
 	 * Defines the plug-in directory url
@@ -60,8 +61,9 @@ function eventorganiser_posterboard_shortcode_handler( $atts ){
 	
 	//Load & 'localize' script
 	$ext = (defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG) ? '' : '.min';
-	wp_enqueue_script( 'eo_posterboard', EVENT_ORGANISER_POSTERBOARD_URL."js/event-board{$ext}.js", array( 'jquery', 'jquery-masonry' ) );
-	wp_enqueue_style( 'eo_posterboard', EVENT_ORGANISER_POSTERBOARD_URL.'css/event-board.css' );
+	$ver = EVENT_ORGANISER_POSTERBOARD_VER;
+	wp_enqueue_script( 'eo_posterboard', EVENT_ORGANISER_POSTERBOARD_URL."js/event-board{$ext}.js", array( 'jquery', 'jquery-masonry' ), $ver );
+	wp_enqueue_style( 'eo_posterboard', EVENT_ORGANISER_POSTERBOARD_URL.'css/event-board.css', array(), $ver );
 	wp_localize_script( 'eo_posterboard', 'eventorganiser_posterboard',
 		array(
 			'url' => admin_url( 'admin-ajax.php' ),
@@ -94,7 +96,7 @@ function eventorganiser_posterboard_shortcode_handler( $atts ){
 					foreach( $venues as $venue ){
 			
 						$filers_markup .= sprintf(
-								'<a href="#" class="event-board-filter filter-venue filter-venue-%1$d" data-filter-type="venue" data-venue="%1$d" data-filter-on="false">%2$s</a>',
+								'<a href="#" class="eo-eb-filter eo-eb-filter-venue eo-eb-filter-venue-%1$d" data-filter-type="venue" data-venue="%1$d" data-filter-on="false">%2$s</a>',
 								$venue->term_id,
 								$venue->name
 							);
@@ -106,14 +108,14 @@ function eventorganiser_posterboard_shortcode_handler( $atts ){
 				if( $cats ){
 					foreach( $cats as $cat ){
 						$filers_markup .= sprintf(
-							'<a href="#" class="event-board-filter filter-category filter-category-%1$d" data-filter-type="category" data-category="%1$d" data-filter-on="false">%2$s</a>',
+							'<a href="#" class="eo-eb-filter eo-eb-filter-category eo-eb-filter-category-%1$d" data-filter-type="category" data-category="%1$d" data-filter-on="false">%2$s</a>',
 							$cat->term_id,
 							$cat->name
 						);
 					}
 				}
 				$filers_markup .= sprintf(
-					'<a href="#" class="event-board-filter filter-category filter-category-%1$d" data-filter-type="category" data-category="%1$d" data-filter-on="false">%2$s</a>',
+					'<a href="#" class="eo-eb-filter eo-eb-filter-category eo-eb-filter-category-%1$d" data-filter-type="category" data-category="%1$d" data-filter-on="false">%2$s</a>',
 					0,
 					__( 'Uncategorised', 'event-organiser-posterboard' )
 				);
@@ -138,7 +140,7 @@ function eventorganiser_posterboard_shortcode_handler( $atts ){
 				if( $terms ){
 					foreach( $terms as $term ){
 						$filers_markup .= sprintf(
-							'<a href="#" class="event-board-filter filter-%1$s filter-%1$s-%2$s" data-filter-type="%1$s" data-%1$s="%2$s" data-filter-on="false">%2$s</a>',
+							'<a href="#" class="eo-eb-filter eo-eb-filter-%1$s eo-eb-filter-%1$s-%2$s" data-filter-type="%1$s" data-%1$s="%2$s" data-filter-on="false">%2$s</a>',
 							$filter,
 							$term
 						);
@@ -167,6 +169,7 @@ function eventorganiser_posterboard_ajax_response(){
 			'event_start_after' => 'today',
 			'numberposts' => 10,
 			'paged' => $page,
+			'post_status' => get_post_stati( array('public' => true) )
 	));
 
 	$response = array();
