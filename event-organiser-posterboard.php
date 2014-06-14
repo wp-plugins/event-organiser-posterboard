@@ -2,7 +2,7 @@
 /*
 Plugin Name: Event Organiser Posterboard
 Plugin URI: http://www.wp-event-organiser.com
-Version: 1.0.1
+Version: 1.0.2
 Description: Display events in as a responsive posterboard.
 Author: Stephen Harris
 Author URI: http://www.stephenharris.info
@@ -28,7 +28,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-define( 'EVENT_ORGANISER_POSTERBOARD_VER', '1.0.1' );
+define( 'EVENT_ORGANISER_POSTERBOARD_VER', '1.0.2' );
 define( 'EVENT_ORGANISER_POSTERBOARD_DIR',plugin_dir_path(__FILE__ ) );
 function _eventorganiser_posterboard_set_constants(){
 	/*
@@ -154,8 +154,8 @@ function eventorganiser_posterboard_shortcode_handler( $atts ){
 	return
 		'<div id="event-board">' 
 			.'<div id="event-board-filters" data-filters="">'. $filers_markup . '</div>'  
-			.'<div id="event-board-items"></div>
-			.<div id="event-board-more"></div>'
+			.'<div id="event-board-items"></div>'
+			.'<div id="event-board-more"></div>'
 		.'</div>';
 }
 add_shortcode( 'event_board', 'eventorganiser_posterboard_shortcode_handler' );
@@ -165,11 +165,11 @@ function eventorganiser_posterboard_ajax_response(){
 
 	$page = $_GET['page'];
 	$event_query = new WP_Query( array(
-			'post_type' => 'event',
-			'event_start_after' => 'today',
-			'numberposts' => 10,
-			'paged' => $page,
-			'post_status' => get_post_stati( array('public' => true) )
+		'post_type'         => 'event',
+		'event_start_after' => 'today',
+		'posts_per_page'    => 10,
+		'paged'             => $page,
+		'post_status'       => get_post_stati( array('public' => true) )
 	));
 
 	$response = array();

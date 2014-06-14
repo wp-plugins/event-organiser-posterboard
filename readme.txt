@@ -4,7 +4,7 @@ Donate link: http://www.wp-event-organiser.com/donate
 Tags: events, event, posterboard, responsive, event-organiser, grid
 Requires at least: 3.3
 Tested up to: 3.9.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv3
 
 Adds an 'event board' to display your events in a responsive posterboard.
@@ -58,6 +58,11 @@ Simply copy that template (`single-event-board-item.html`) into your theme and e
 
 
 == Changelog ==
+
+= 1.0.2 =
+* Fixes bug on some installs where the "load more" bar does not appear.
+* Fixes rogue "dot" appearing 
+* Added Hungarian translation (thanks to Daniel Kocsis).
 
 = 1.0.1 =
 * Renamed classes to use `eo-pb-` prefix.
