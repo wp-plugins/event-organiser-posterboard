@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: event-organiser-posterboard 2.0.0\n"
+"Project-Id-Version: event-organiser-posterboard 2.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-21 22:21+0000\n"
+"POT-Creation-Date: 2015-04-06 15:59+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,14 +17,14 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: event-organiser-posterboard.php:82
+#: event-organiser-posterboard.php:84
 msgid "Loading..."
 msgstr ""
 
-#: event-organiser-posterboard.php:83
+#: event-organiser-posterboard.php:85
 msgid "Load more"
 msgstr ""
 
-#: event-organiser-posterboard.php:132
+#: event-organiser-posterboard.php:134
 msgid "Uncategorised"
 msgstr ""
